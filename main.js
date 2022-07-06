@@ -1,4 +1,3 @@
-console.log("Hello World");
 import boom from "./sounds/boom.wav";
 import clap from "./sounds/clap.wav";
 import hi_hat from "./sounds/hi_hat.wav";
@@ -26,8 +25,7 @@ start_game_btn.addEventListener("click", () => {
 // Record Button
 let record_mode = "";
 let record_array = [];
-
-let start_record_time = new Date().getTime();
+var initialTime;
 
 const start_record_btn = document.getElementById("record");
 start_record_btn.addEventListener("click", () => {
@@ -36,11 +34,19 @@ start_record_btn.addEventListener("click", () => {
     record_mode = "";
   } else {
     start_record_btn.textContent = "End Record";
+    initialTime = new Date().getTime();
+    console.log(initialTime);
     record_mode = "record";
   }
 });
 
-// Date Function
+// Get Interval Time
+var intervalTime;
+
+setInterval(function () {
+  var currentTime = new Date().getTime();
+  intervalTime = currentTime - initialTime;
+});
 
 // Playback Button
 let playback_mode = "";
@@ -48,6 +54,19 @@ let playback_mode = "";
 const start_playback_btn = document.getElementById("playback");
 start_playback_btn.addEventListener("click", () => {
   if (playback_mode === "playback") {
+    (function playSound() {
+      var new_initialTime = new Date().getTime();
+      let updatedTime = new_initialTime + r.Time;
+
+      key_config.forEach((k) => {
+        record_array.forEach((r) => {
+          if (r.Key === k.key) {
+            const audio = new Audio(k.sound);
+            audio.play;
+          }
+        });
+      });
+    });
     start_playback_btn.textContent = "Playback";
     playback_mode = "";
   } else {
@@ -55,8 +74,6 @@ start_playback_btn.addEventListener("click", () => {
     playback_mode = "playback";
   }
 });
-
-// Playback Function
 
 // Beat Configuration
 const key_config = [
@@ -124,6 +141,8 @@ key_config.forEach((k) => {
   control_div.appendChild(control_key);
   parent.appendChild(control_div);
 
+  // On-Click Hover Transitions
+
   document.addEventListener("keydown", (e) => {
     if (e.key.toLocaleLowerCase() === k.key) {
       const audio = new Audio(k.sound);
@@ -135,11 +154,11 @@ key_config.forEach((k) => {
         score++;
       }
 
-      // Record Function
+      // Record Array
       if (record_mode === "record") {
         let record_desc = {
-          start_record_time: new Date().getTime(),
-          key: e.key,
+          Key: e.key,
+          Time: intervalTime,
         };
         record_array.push(record_desc);
         console.log(record_array);

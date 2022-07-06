@@ -121,6 +121,12 @@ nav > .menu-buttons > button:not(:last-child) {
   transition: all 0.08s ease;
 }
 
+.control .card:hover {
+  transform: scale(1.15);
+  z-index: 2;
+  box-shadow: 0px 0px 2px rgb(0, 255, 255);
+}
+
 .control.card:not(:last-child) {
   margin-right: 24px;
 }
